@@ -67,7 +67,7 @@ func MaxSumSubArrayFaster(a []int) int {
 // then returning the maximum of those maximums.
 //
 // This is enabled by the following observation:
-// if the sum of the max sum subarray ending at and including element at index i is not greater than 0,
+// If the sum of the max sum subarray ending at and including element at index i is not greater than 0,
 // then that subarray's sum can trivially be improved upon by replacing it with the empty set, which has sum 0.
 // That is, if the max sum subarray ending at and including element at index i does not contribute a positive
 // value to our max sum, then it is best to leave the subarray out completely.
@@ -115,5 +115,42 @@ func MaxSumSubArrayFaster(a []int) int {
 // The maximum possible sum of all subarrays of a is the max of our array of local subarray,
 // maximums m =[0, 0, 3, 2, 7, 13, 6, 4, 8, 5], which is 13.
 func MaxSumSubArrayFastest(a []int) int {
-	return 0
+	// build an array of the max suffix sums sums of subarrays ending with element at index i for 0 <= i < n
+	maxSuffixSums := make([]int, len(a))
+
+	baseCaseEmptySubarraySum := 0 // the base case subarray is empty with sum 0
+	overallMaxSubarraySum := baseCaseEmptySubarraySum
+
+	for i, v := range a {
+
+		var maxSuffixSumForPreviousElement int
+		if i == 0 {
+			// Base case, preceding subarray is the empty subarray with sum 0
+			maxSuffixSumForPreviousElement = 0
+		} else {
+			maxSuffixSumForPreviousElement = maxSuffixSums[i-1]
+		}
+
+		// What do we get if we take the max sum subarray ending at i - 1 and add element i?
+		// Is it possible to improve upon that preceding subarray?
+		maxSuffixSumForThisElement := maxSuffixSumForPreviousElement + v
+
+		// If the max sum of a subarray that ends with the element at index i is negative, then
+		// there is nothing to be gained by adding it onto the max sum subarray that ended at i - 1.
+		// We are better off letting that preceding max sum subarray end and starting over with an empty subarray.
+		// Therefore, the max sum of a subarray ending at index i is the empty subarray, with sum 0
+		maxSuffixSums[i] = max(maxSuffixSumForThisElement, baseCaseEmptySubarraySum)
+
+		// Keep track of the overall max subarray sum found so far
+		overallMaxSubarraySum = max(overallMaxSubarraySum, maxSuffixSumForThisElement)
+	}
+
+	return overallMaxSubarraySum
+}
+
+func max(x, y int) int {
+	if x > y {
+		return x
+	}
+	return y
 }
