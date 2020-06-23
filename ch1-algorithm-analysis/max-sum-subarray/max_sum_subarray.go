@@ -71,7 +71,7 @@ func MaxSumSubArrayFaster(a []int) int {
 // then that subarray's sum can trivially be improved upon by replacing it with the empty set, which has sum 0.
 // That is, if the max sum subarray ending at and including element at index i does not contribute a positive
 // value to our max sum, then it is best to leave the subarray out completely.
-// To illustrate, use the array a = [-2, -4, 3, -1, 5, 6, -7, -2, 4, -3, 2] Base case maximum sum is 0.
+// To illustrate, use the array a = [-2, -4, 3, -1, 5, 6, -7, -2, 4, -3, 2] Base case empty set sum is 0.
 // 1. subarray space is a[0..0] = [-2]
 //		The preceding subarray sum 0, plus this element -2, has sum -2
 //		This can trivially be improved upon by starting over with the empty set of sum 0
@@ -115,7 +115,7 @@ func MaxSumSubArrayFaster(a []int) int {
 // The maximum possible sum of all subarrays of a is the max of our array of local subarray,
 // maximums m =[0, 0, 3, 2, 7, 13, 6, 4, 8, 5], which is 13.
 func MaxSumSubArrayFastest(a []int) int {
-	// build an array of the max suffix sums sums of subarrays ending with element at index i for 0 <= i < n
+	// build an array of the max suffix sums of subarrays ending with element at index i for 0 <= i < n
 	maxSuffixSums := make([]int, len(a))
 
 	baseCaseEmptySubarraySum := 0 // the base case subarray is empty with sum 0
@@ -123,26 +123,26 @@ func MaxSumSubArrayFastest(a []int) int {
 
 	for i, v := range a {
 
-		var maxSuffixSumForPreviousElement int
+		var previousMaxSuffixSum int
 		if i == 0 {
 			// Base case, preceding subarray is the empty subarray with sum 0
-			maxSuffixSumForPreviousElement = 0
+			previousMaxSuffixSum = 0
 		} else {
-			maxSuffixSumForPreviousElement = maxSuffixSums[i-1]
+			previousMaxSuffixSum = maxSuffixSums[i-1]
 		}
 
 		// What do we get if we take the max sum subarray ending at i - 1 and add element i?
 		// Is it possible to improve upon that preceding subarray?
-		maxSuffixSumForThisElement := maxSuffixSumForPreviousElement + v
+		currentMaxSuffixSum := previousMaxSuffixSum + v
 
 		// If the max sum of a subarray that ends with the element at index i is negative, then
 		// there is nothing to be gained by adding it onto the max sum subarray that ended at i - 1.
 		// We are better off letting that preceding max sum subarray end and starting over with an empty subarray.
 		// Therefore, the max sum of a subarray ending at index i is the empty subarray, with sum 0
-		maxSuffixSums[i] = max(maxSuffixSumForThisElement, baseCaseEmptySubarraySum)
+		maxSuffixSums[i] = max(currentMaxSuffixSum, baseCaseEmptySubarraySum)
 
 		// Keep track of the overall max subarray sum found so far
-		overallMaxSubarraySum = max(overallMaxSubarraySum, maxSuffixSumForThisElement)
+		overallMaxSubarraySum = max(overallMaxSubarraySum, currentMaxSuffixSum)
 	}
 
 	return overallMaxSubarraySum
