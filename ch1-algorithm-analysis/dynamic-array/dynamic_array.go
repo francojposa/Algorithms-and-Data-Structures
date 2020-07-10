@@ -1,7 +1,10 @@
 package algorithmanalysis
 
+import "fmt"
+
 const defaultCapacity = 10
 const resizeFactor = 2
+const shrinkThreshold float64 = 0.25
 
 // DynamicArray implements a simplified version of slices to demonstrate array resizing
 //
@@ -26,21 +29,47 @@ type DynamicArray struct {
 func NewDynamicArray() *DynamicArray {
 	return &DynamicArray{
 		Size:             0,
-		Capacity:         defaultCapacity,
-		Arr:              make([]int, 0, defaultCapacity),
+		Capacity:         10,
+		Arr:              make([]int, 0, 10),
 		OperationCredits: 0,
 	}
+}
+
+func (da *DynamicArray) String() string {
+	return fmt.Sprintf(
+		"DynamicArray: Size=%d, Capacity=%d, OperationCredits=%d; underlying slice: len=%d cap=%d, location=%p %v,\n",
+		da.Size, da.Capacity, da.OperationCredits, len(da.Arr), cap(da.Arr), da.Arr, da.Arr)
 }
 
 func (da *DynamicArray) Get(index int) int {
 	return da.Arr[index]
 }
 
+func (da *DynamicArray) Pop() (*DynamicArray, int) {
+	da.OperationCredits++
+
+	sizeAfterPop := da.Size - 1
+	if float64(sizeAfterPop)/float64(da.Capacity) < shrinkThreshold {
+		newCapacity := da.Size * resizeFactor
+		da = da.resize(da.Size, newCapacity)
+	}
+
+	value := da.Arr[len(da.Arr)-1]
+	da.Arr = da.Arr[:len(da.Arr)-1]
+
+	da.Size--
+	// da.OperationCredits--
+	da.OperationCredits--
+	return da, value
+}
+
 func (da *DynamicArray) Append(value int) *DynamicArray {
 	da.OperationCredits += 3
 
-	if da.Size == da.Capacity {
-		da = da.resize(da.Capacity * resizeFactor)
+	// sizeAfterAppend := da.Size + 1
+	if da.Size >= da.Capacity {
+		newCapacity := da.Size * resizeFactor
+		da = da.resize(da.Size, newCapacity)
 	}
 
 	da.Arr = append(da.Arr, value)
@@ -50,8 +79,9 @@ func (da *DynamicArray) Append(value int) *DynamicArray {
 	return da
 }
 
-func (da *DynamicArray) resize(capacity int) *DynamicArray {
-	newArr := make([]int, da.Size, capacity)
+func (da *DynamicArray) resize(newSize, newCapacity int) *DynamicArray {
+	fmt.Printf("RESIZE to capacity %d\n", newCapacity)
+	newArr := make([]int, newSize, newCapacity)
 
 	for i, v := range da.Arr {
 		da.OperationCredits--
@@ -59,7 +89,7 @@ func (da *DynamicArray) resize(capacity int) *DynamicArray {
 	}
 
 	da.Arr = newArr
-	da.Capacity = capacity
+	da.Capacity = newCapacity
 
 	return da
 }
