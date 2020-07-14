@@ -15,7 +15,7 @@ func TestDynamicArray(t *testing.T) {
 			da.Append(i)
 			// Assert that we have not run of out of our amortized operation credits
 			assert.GreaterOrEqual(da.operationCredits, 0)
-			// In reality, it doesn't matter if the credits are breifly below zero
+			// In reality, it doesn't matter if the credits are briefly below zero
 			// as long as we are on average allocating enough credits to cover the cost
 			// of many append/pop operations on a dynamic array.
 			// The point is to illustrate that the averaged/amortized cost does not exceed
