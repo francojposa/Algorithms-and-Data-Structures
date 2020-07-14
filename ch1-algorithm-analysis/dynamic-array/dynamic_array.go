@@ -31,7 +31,7 @@ type DynamicArray struct {
 	Size             int   // Number of actual elements
 	Capacity         int   // Capacity of underlying static array
 	Arr              []int // Static array storage
-	OperationCredits int   // Number of primitive operation credits built up
+	operationCredits int   // Number of primitive operation credits built up
 }
 
 func NewDynamicArray() *DynamicArray {
@@ -39,14 +39,14 @@ func NewDynamicArray() *DynamicArray {
 		Size:             0,
 		Capacity:         defaultCapacity,
 		Arr:              make([]int, 0, defaultCapacity),
-		OperationCredits: 0,
+		operationCredits: 0,
 	}
 }
 
 func (da *DynamicArray) String() string {
 	return fmt.Sprintf(
 		"DynamicArray: Size=%d, Capacity=%d, OperationCredits=%d; underlying slice: len=%d cap=%d, location=%p %v,\n",
-		da.Size, da.Capacity, da.OperationCredits, len(da.Arr), cap(da.Arr), da.Arr, da.Arr)
+		da.Size, da.Capacity, da.operationCredits, len(da.Arr), cap(da.Arr), da.Arr, da.Arr)
 }
 
 func (da *DynamicArray) Get(index int) int {
@@ -86,7 +86,7 @@ func (da *DynamicArray) Get(index int) int {
 //		* Array = [1, 2, 3, 4, 5, x, x, x]. Size 5, Capacity 8, OperationCredits 2
 //... etc etc
 func (da *DynamicArray) Append(value int) *DynamicArray {
-	da.OperationCredits += 3
+	da.operationCredits += 3
 
 	if da.Size >= da.Capacity {
 		newCapacity := da.Size * resizeFactor
@@ -94,14 +94,14 @@ func (da *DynamicArray) Append(value int) *DynamicArray {
 	}
 
 	da.Arr = append(da.Arr, value)
-	da.OperationCredits--
+	da.operationCredits--
 	da.Size++
 
 	return da
 }
 
 func (da *DynamicArray) Pop() (*DynamicArray, int) {
-	da.OperationCredits++
+	da.operationCredits++
 
 	sizeAfterPop := da.Size - 1
 	if float64(sizeAfterPop)/float64(da.Capacity) < shrinkThreshold {
@@ -113,7 +113,7 @@ func (da *DynamicArray) Pop() (*DynamicArray, int) {
 	da.Arr = da.Arr[:len(da.Arr)-1]
 
 	da.Size--
-	da.OperationCredits--
+	da.operationCredits--
 	return da, value
 }
 
@@ -121,7 +121,7 @@ func (da *DynamicArray) resize(newSize, newCapacity int) *DynamicArray {
 	newArr := make([]int, newSize, newCapacity)
 
 	for i, v := range da.Arr {
-		da.OperationCredits--
+		da.operationCredits--
 		newArr[i] = v
 	}
 
