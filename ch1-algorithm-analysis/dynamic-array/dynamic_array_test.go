@@ -1,7 +1,6 @@
 package algorithmanalysis
 
 import (
-	"fmt"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -12,54 +11,40 @@ func TestDynamicArray(t *testing.T) {
 	da := NewDynamicArray()
 
 	t.Run("Fill dynamic array up to initial capacity", func(t *testing.T) {
-		for i := 0; i <= defaultCapacity; i++ {
-			fmt.Print(da)
+		for i := 0; i < defaultCapacity; i++ {
 			da.Append(i)
-			fmt.Print(da)
-			assertDynamicArrayState(t, assert, da, i, i, i+1, defaultCapacity)
+			// Assert that we have not run of out of our amortized operation credits
+			assert.GreaterOrEqual(da.OperationCredits, 0)
+			// In reality, it doesn't matter if the credits are breifly below zero
+			// as long as we are on average allocating enough credits to cover the cost
+			// of many append/pop operations on a dynamic array.
+			// The point is to illustrate that the averaged/amortized cost does not exceed
+			// some constant factor per operation, meaning we have O(n) running time
 		}
 	})
 
 	t.Run("Pop pop pop til it's gone", func(t *testing.T) {
-		for i := len(da.Arr) - 1; i >= 0; i-- {
-			fmt.Print(da)
+		for i := da.Size - 1; i >= 0; i-- {
 			da.Pop()
-			fmt.Print(da)
+			// assert that we have not run of out of our amortized operation credits
+			assert.GreaterOrEqual(da.OperationCredits, 0)
 		}
 	})
 
-	t.Run("Fill dynamic array up to initial capacity", func(t *testing.T) {
+	t.Run("Fill dynamic array back up to initial capacity", func(t *testing.T) {
 		for i := 0; i < defaultCapacity; i++ {
-			fmt.Print(da)
 			da.Append(i)
-			fmt.Print(da)
-			assertDynamicArrayState(t, assert, da, i, i, i+1, defaultCapacity)
+			// assert that we have not run of out of our amortized operation credits
+			assert.GreaterOrEqual(da.OperationCredits, 0)
 		}
 	})
 
-	t.Run("Trigger dynamic array expansion, fill up to 2x initial capacity", func(t *testing.T) {
+	t.Run("Fill dynamic array up to 2x initial capacity", func(t *testing.T) {
 		for i := defaultCapacity; i < 2*defaultCapacity; i++ {
-			fmt.Print(da)
 			da.Append(i)
-			fmt.Print(da)
-			assertDynamicArrayState(t, assert, da, i, i, i+1, 2*defaultCapacity)
+			// assert that we have not run of out of our amortized operation credits
+			assert.GreaterOrEqual(da.OperationCredits, 0)
 		}
 	})
 
-}
-
-func assertDynamicArrayState(
-	t *testing.T,
-	assert *assert.Assertions,
-	da *DynamicArray,
-	index,
-	expectedElement,
-	expectedSize,
-	expectedCapacity int,
-) {
-	t.Helper()
-	// assert.Equal(expectedElement, da.Get(index))
-	// assert.Equal(expectedSize, da.Size)
-	// assert.Equal(expectedCapacity, da.Capacity)
-	assert.Greater(da.OperationCredits, 0)
 }
