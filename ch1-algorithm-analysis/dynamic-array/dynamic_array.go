@@ -45,8 +45,7 @@ func NewDynamicArray() *DynamicArray {
 
 func (da *DynamicArray) String() string {
 	return fmt.Sprintf(
-		"DynamicArray: Size=%d, Capacity=%d, OperationCredits=%d; underlying slice: len=%d cap=%d, location=%p %v,\n",
-		da.Size, da.Capacity, da.operationCredits, len(da.Arr), cap(da.Arr), da.Arr, da.Arr)
+		"DynamicArray: Size=%d, Capacity=%d, %v", da.Size, da.Capacity, da.Arr)
 }
 
 func (da *DynamicArray) Get(index int) int {
