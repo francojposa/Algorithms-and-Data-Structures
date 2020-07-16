@@ -93,9 +93,8 @@ func (da *DynamicArray) Append(value int) *DynamicArray {
 	}
 
 	da.Arr = append(da.Arr, value)
-	da.operationCredits--
 	da.Size++
-
+	da.operationCredits--
 	return da
 }
 
