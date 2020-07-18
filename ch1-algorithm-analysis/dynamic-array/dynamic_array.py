@@ -39,6 +39,11 @@ class DynamicArray:
     def __len__(self) -> int:
         return self._size
 
+    def __getitem__(self, index: int):
+        if not 0 <= index < self._size:
+            raise IndexError("index out of bounds")
+        return self._arr[index]
+
     def append(self, value: int) -> "DynamicArray":
         """
         append adds the given value to the end of a DynamicArray, doubling the allocated
@@ -92,6 +97,12 @@ class DynamicArray:
         size_after_pop = self._size - 1
         if size_after_pop / self._capacity < self._SHRINK_THRESHOLD:
             self._resize(self._size * self._RESIZE_FACTOR)
+
+        val = self._arr[self._size - 1]
+
+        self._size -= 1
+        self._operation_credits -= 1
+        return self, val
 
     def _resize(self, new_capacity: int) -> None:
         new_arr = self._make_array(new_capacity)
