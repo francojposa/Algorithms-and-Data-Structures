@@ -8,7 +8,8 @@ class ArrayStack:
     associated with dynamic arrays. However, as shown in chapter 1 the amortized cost of
     expanding and shrinking a dynamic array is O(n). Dynamic array constant factors may
     still be a bit fatter than a linked-list, depending on implementation details of each.
-
+    Linked list implementations are likely to use more memory per element due to the need
+    to hold references to the next (and previous in the case of a doubly-linked list) node
     """
 
     def __init__(self):
@@ -21,19 +22,25 @@ class ArrayStack:
         return len(self._arr) == 0
 
     def push(self, val: Any) -> "ArrayStack":
-        """Push val onto top of LIFO stack"""
+        """Push value onto top of LIFO stack"""
         self._arr.append(val)
         return self
 
     def pop(self) -> Tuple["ArrayStack", Any]:
-        """Pop val off top of LIFO stack and return"""
+        """Pop value off top of LIFO stack and return
+        
+        Raise Empty exception if stack is empty
+        """
         if self.is_empty():
             raise Empty("stack is empty")
         val = self._arr.pop()
         return self, val
 
     def top(self) -> Tuple["ArrayStack", Any]:
-        """Access (but do not remove) val at top of LIFO stack and return"""
+        """Access (but do not remove) value at top of LIFO stack and return
+        
+        Raise Empty exception if stack is empty
+        """
         if self.is_empty():
             raise Empty("stack is empty")
         val = self._arr[-1]

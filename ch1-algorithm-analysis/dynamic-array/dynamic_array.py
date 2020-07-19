@@ -8,7 +8,7 @@ class DynamicArray:
     DynamicArray tracks its primitive operation "accounting credits" to illustrate the
     accounting method of analyzing amortized cost of operations on a data structure
 
-    Underlying static storage still uses a ctypes array so that we can demonstrate resizing.
+    Underlying static storage uses a Python ctypes array so that we can demonstrate resizing.
 
     Some obvious possible improvements to this implementation:
         1. Ensure we don't have a case where a 0-capacity underlying array gets "doubled"

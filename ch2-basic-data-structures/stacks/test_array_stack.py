@@ -16,11 +16,13 @@ def test_array_stack():
         array_stack.push(i)
         array_stack, top = array_stack.top()
         assert top == i
+        assert len(array_stack) == i + 1
 
     # Pop all the elements off
     for i in range(len(array_stack) - 1, -1, -1):
         array_stack, val = array_stack.pop()
         assert val == i
+        assert len(array_stack) == i
 
     # Assert we are back to an empty stack
     assert array_stack.is_empty()
