@@ -90,27 +90,21 @@ class ITree(ABC):
 class IBinaryTree(ITree):
     @abstractmethod
     def left(self, node: ITreeNode) -> Optional[ITreeNode]:
-        """Return Node representing node's left child
-
-        Return None if node does not have a left child"""
+        """Return Node representing node's left child or None if no left child"""
 
     @abstractmethod
     def right(self, node: ITreeNode) -> Optional[ITreeNode]:
-        """Return Node representing node's right child
-
-        Return None if node does not have a right child"""
+        """Return Node representing node's right child or None if no right child"""
 
     def sibling(self, node: ITreeNode) -> Optional[ITreeNode]:
-        """Return Node representing node's sibling
-
-        Return None if node does not have a sibilng"""
+        """Return Node representing node's sibling or None if no sibling"""
         parent = self.parent(node)
         if parent is None:
             return None
-        left = self.left(parent)
-        if node == left:
+        parent_left_child = self.left(parent)
+        if node == parent_left_child:
             return self.right(parent)
-        return left
+        return parent_left_child
 
     def children(self, node: ITreeNode) -> List[Optional[ITreeNode]]:
         return [self.left(node), self.right(node)]
