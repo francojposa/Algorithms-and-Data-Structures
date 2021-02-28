@@ -89,6 +89,27 @@ class ITree(ABC):
 
 class IBinaryTree(ITree):
     @abstractmethod
+    def add_root(self, element: Any) -> ITreeNode:
+        """Create root Node of an empty tree, containing element
+        
+        Return newly created root node
+        """
+
+    @abstractmethod
+    def add_left(self, node: ITreeNode, element: Any) -> ITreeNode:
+        """Create left child Node of node, containing element
+        
+        Return newly created left child node
+        """
+
+    @abstractmethod
+    def add_right(self, node: ITreeNode, element: Any) -> ITreeNode:
+        """Create right child Node of node, containing element
+        
+        Return newly created right child node
+        """
+
+    @abstractmethod
     def left(self, node: ITreeNode) -> Optional[ITreeNode]:
         """Return Node representing node's left child or None if no left child"""
 
