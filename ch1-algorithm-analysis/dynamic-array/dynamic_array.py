@@ -61,20 +61,20 @@ class DynamicArray:
         1. Initial State, we receive some array to be managed with dynamic storage
             * Array = [1, x]. Size 1, Capacity 2, OperationCredits 0
         2. Append.
-            * 3 OperationCredits charged
+            * 3 OperationCredit charged
             * -1 OperationCredit spent appending the new element
             * Array = [1, 2]. Size 2, Capacity 2, OperationCredits 2
         3. Append, triggers resize.
-            * 3 OperationCredits charged
+            * 3 OperationCredit charged
             * -2 OperationCredit spent copying over the existing elements
             * -1 OperationCredit spent appending the new element
             * Array = [1, 2, 3, x]. Size 3, Capacity 4, OperationCredits 2
         4. Append
-            * 3 OperationCredits charged
+            * 3 OperationCredit charged
             * -1 OperationCredit spent appending the new element
             * Array = [1, 2, 3, 4]. Size 4, Capacity 4, OperationCredits 4
         5. Append, triggers resize
-            * 3 OperationCredits charged
+            * 3 OperationCredit charged
             * -4 OperationCredit spent copying over the existing elements
             * -1 OperationCredit spent appending the new element
             * Array = [1, 2, 3, 4, 5, x, x, x]. Size 5, Capacity 8, OperationCredits 2
