@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from abc import ABC, abstractmethod
 from typing import Any, Tuple
 
@@ -12,18 +14,18 @@ class Queue(ABC):
         """Return True if queue is empty; False otherwise"""
 
     @abstractmethod
-    def enqueue(self, val: Any) -> "Queue":
+    def enqueue(self, val: Any) -> Queue:
         """Insert value at end of queue"""
 
     @abstractmethod
-    def dequeue(self) -> Tuple["Queue", Any]:
+    def dequeue(self) -> Tuple[Queue, Any]:
         """Remove value from front of FIFO queue and return
 
         Raise error if the queue is empty
         """
 
     @abstractmethod
-    def first(self) -> Tuple["Queue", Any]:
+    def first(self) -> Tuple[Queue, Any]:
         """Access (but do not remove) value at top of LIFO stack and return
 
         Raise Empty exception if queue is empty
@@ -50,18 +52,18 @@ class ArrayQueue(Queue):
     def is_empty(self) -> bool:
         return len(self._arr) == 0
 
-    def enqueue(self, val: Any) -> "ArrayQueue":
+    def enqueue(self, val: Any) -> ArrayQueue:
         self._arr.append(val)
         return self
 
-    def dequeue(self) -> Tuple["ArrayQueue", Any]:
+    def dequeue(self) -> Tuple[ArrayQueue, Any]:
         if self.is_empty():
             raise Empty("queue is empty")
         val = self._arr[0]
         self._arr = self._arr[1:]
         return self, val
 
-    def first(self) -> Tuple["ArrayQueue", Any]:
+    def first(self) -> Tuple[ArrayQueue, Any]:
         if self.is_empty():
             raise Empty("queue is empty")
         val = self._arr[0]
