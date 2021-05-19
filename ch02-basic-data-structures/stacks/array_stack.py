@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from typing import Any, Tuple
 
 
@@ -21,14 +23,14 @@ class ArrayStack:
     def is_empty(self) -> bool:
         return len(self._arr) == 0
 
-    def push(self, val: Any) -> "ArrayStack":
+    def push(self, val: Any) -> ArrayStack:
         """Push value onto top of LIFO stack"""
         self._arr.append(val)
         return self
 
-    def pop(self) -> Tuple["ArrayStack", Any]:
+    def pop(self) -> Tuple[ArrayStack, Any]:
         """Pop value off top of LIFO stack and return
-        
+
         Raise Empty exception if stack is empty
         """
         if self.is_empty():
@@ -36,9 +38,9 @@ class ArrayStack:
         val = self._arr.pop()
         return self, val
 
-    def top(self) -> Tuple["ArrayStack", Any]:
+    def top(self) -> Tuple[ArrayStack, Any]:
         """Access (but do not remove) value at top of LIFO stack and return
-        
+
         Raise Empty exception if stack is empty
         """
         if self.is_empty():
