@@ -1,4 +1,4 @@
-package algorithmanalysis
+package dynamicarray
 
 import "fmt"
 

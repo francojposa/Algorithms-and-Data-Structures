@@ -1,9 +1,10 @@
-package algorithmanalysis
+package dynamicarray
 
 import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
+	//"algorithms-and-data-structures/ch01-algorithm-analysis/dynamic-array"
 )
 
 func TestDynamicArray(t *testing.T) {
