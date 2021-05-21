@@ -117,9 +117,9 @@ func (da *DynamicArray) Pop() (*DynamicArray, int) {
 func (da *DynamicArray) resize(newSize, newCapacity int) *DynamicArray {
 	newArr := make([]int, newSize, newCapacity)
 
-	for i, v := range da.Arr {
+	for i := 0; i < newSize; i++ {
 		da.operationCredits--
-		newArr[i] = v
+		newArr[i] = da.Arr[i]
 	}
 
 	da.Arr = newArr
