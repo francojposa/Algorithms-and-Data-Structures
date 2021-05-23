@@ -36,4 +36,3 @@ def test_traverse_preorder_function():
     traverse_preorder(t_section, lambda t: table_of_contents.append(t.value))
 
     assert table_of_contents == ["section", "1", "1a", "1b", "2", "2a"]
-
