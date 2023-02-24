@@ -14,6 +14,12 @@ class Tree(pydantic.BaseModel):
         for child in self.children:
             child.traverse_preorder(visit)
 
+    def traverse_postorder(self, visit: Optional[Callable[[Tree], Any]] = None):
+        for child in self.children:
+            child.traverse_postorder(visit)
+        if visit:
+            visit(self)
+
 
 Tree.update_forward_refs()
 
