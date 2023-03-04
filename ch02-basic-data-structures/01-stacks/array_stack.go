@@ -1,6 +1,6 @@
 package basicdatastructures
 
-const DefaultCapacity = 10
+const DefaultStackCapacity = 10
 
 // ArrayStack demonstrates an Array-based Stack implementation
 //
@@ -23,8 +23,8 @@ func WithStackCapacity(capacity int) ArrayStackOpt {
 
 func NewArrayStack(opts ...ArrayStackOpt) *ArrayStack {
 	stack := &ArrayStack{
-		capacity: DefaultCapacity,
-		data:     make([]any, 0, DefaultCapacity),
+		capacity: DefaultStackCapacity,
+		data:     make([]any, 0, DefaultStackCapacity),
 	}
 	for _, opt := range opts {
 		opt(stack)

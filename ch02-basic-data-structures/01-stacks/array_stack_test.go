@@ -9,31 +9,31 @@ func TestArrayStack(t *testing.T) {
 
 	t.Run("default capacity", func(t *testing.T) {
 
-		inputs := [DefaultCapacity + 2]int{0, 2, 4, 6, 8, 16, 32, 64, 128, 256, 512, 1024}
+		inputs := [DefaultStackCapacity + 2]int{0, 2, 4, 6, 8, 16, 32, 64, 128, 256, 512, 1024}
 		stack := NewArrayStack()
 
 		for i, v := range inputs {
 			err := stack.Push(v)
-			if i < DefaultCapacity {
+			if i < DefaultStackCapacity {
 				assert.Nil(t, err)
 				assert.Equal(t, i+1, stack.Len())
 			} else {
 				assert.ErrorIs(t, err, StackFullError{})
-				assert.Equal(t, DefaultCapacity, stack.Len())
+				assert.Equal(t, DefaultStackCapacity, stack.Len())
 			}
 		}
 
-		reconstructedInputs := [DefaultCapacity]any{}
+		reconstructedInputs := [DefaultStackCapacity]any{}
 		for i := 0; i < len(inputs); i++ {
 			val, err := stack.Pop()
-			if i < DefaultCapacity {
+			if i < DefaultStackCapacity {
 				assert.Nil(t, err)
-				reconstructedInputs[DefaultCapacity-i-1] = val
+				reconstructedInputs[DefaultStackCapacity-i-1] = val
 			} else {
 				assert.ErrorIs(t, err, StackEmptyError{})
 			}
 		}
-		for i := 0; i < DefaultCapacity; i++ {
+		for i := 0; i < DefaultStackCapacity; i++ {
 			assert.Equal(t, inputs[i], reconstructedInputs[i])
 		}
 	})
