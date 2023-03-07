@@ -1,4 +1,4 @@
-package recursivetree
+package trees
 
 type Tree struct {
 	Value    interface{}

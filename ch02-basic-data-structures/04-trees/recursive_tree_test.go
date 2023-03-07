@@ -1,4 +1,4 @@
-package recursivetree
+package trees
 
 import (
 	"testing"
