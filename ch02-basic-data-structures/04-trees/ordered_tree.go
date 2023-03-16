@@ -14,6 +14,20 @@ func (ot *OrderedTree) Children() []*OrderedTree {
 	return ot.children
 }
 
+func (ot *OrderedTree) Height() int {
+	if len(ot.children) == 0 {
+		return 1
+	}
+	maxHeight := 0
+	for _, child := range ot.children {
+		childHeight := child.Height()
+		if childHeight > maxHeight {
+			maxHeight = childHeight
+		}
+	}
+	return maxHeight + 1
+}
+
 func (ot *OrderedTree) TraversePreOrder(visit OrderedTreeVisit) error {
 	if visit != nil {
 		err := visit(ot)

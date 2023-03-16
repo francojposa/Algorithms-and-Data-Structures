@@ -35,6 +35,8 @@ func TestOrderedTree_TraversePreOrder(t *testing.T) {
 		},
 	}
 
+	assert.Equal(t, bookStructure.Height(), 3)
+
 	var tableOfContents []string
 	visit := func(tree *OrderedTree) error {
 		val := tree.Value()
@@ -88,6 +90,8 @@ func TestOrderedTree_TraversePostOrder(t *testing.T) {
 			},
 		},
 	}
+
+	assert.Equal(t, reversePolishNotationTree.Height(), 4)
 
 	var reversePolishNotation []string
 	visit := func(tree *OrderedTree) error {
