@@ -2,32 +2,33 @@ package trees
 
 import (
 	"errors"
-	"github.com/stretchr/testify/assert"
 	"testing"
+
+	"github.com/stretchr/testify/assert"
 )
 
 func TestOrderedTree_TraversePreOrder(t *testing.T) {
-	var bookStructure = &OrderedTree{
+	var tableOfContentsTree = &OrderedTree{
 		value: nil,
 		children: []*OrderedTree{
 			{
-				value: "1",
+				value: "Chapter 1",
 				children: []*OrderedTree{
 					{
-						value:    "1a",
+						value:    "1.1",
 						children: nil,
 					},
 					{
-						value:    "1b",
+						value:    "1.2",
 						children: nil,
 					},
 				},
 			},
 			{
-				value: "2",
+				value: "Chapter 2",
 				children: []*OrderedTree{
 					{
-						value:    "2a",
+						value:    "2.1",
 						children: nil,
 					},
 				},
@@ -35,7 +36,7 @@ func TestOrderedTree_TraversePreOrder(t *testing.T) {
 		},
 	}
 
-	assert.Equal(t, bookStructure.Height(), 3)
+	assert.Equal(t, tableOfContentsTree.Height(), 3)
 
 	var tableOfContents []string
 	visit := func(tree *OrderedTree) error {
@@ -51,10 +52,10 @@ func TestOrderedTree_TraversePreOrder(t *testing.T) {
 		return nil
 	}
 
-	err := bookStructure.TraversePreOrder(visit)
+	err := tableOfContentsTree.TraversePreOrder(visit)
 	assert.Nil(t, err)
 
-	expectedTableOfContents := []string{"1", "1a", "1b", "2", "2a"}
+	expectedTableOfContents := []string{"Chapter 1", "1.1", "1.2", "Chapter 2", "2.1"}
 	assert.Equal(t, expectedTableOfContents, tableOfContents)
 }
 

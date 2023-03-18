@@ -4,7 +4,6 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
-	//"algorithms-and-data-structures/ch01-algorithm-analysis/02-dynamic-array"
 )
 
 func TestDynamicArray(t *testing.T) {
